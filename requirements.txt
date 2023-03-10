@@ -1,4 +1,4 @@
-dash== 2.60
+dash== 2.8.1
 pandas
 gunicon
 plotly
