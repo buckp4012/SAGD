@@ -3,4 +3,4 @@ pandas
 gunicorn
 plotly
 numpy
-scipy.stats
+
