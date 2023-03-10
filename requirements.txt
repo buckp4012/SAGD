@@ -1,0 +1,6 @@
+dash== 2.60
+pandas
+gunicon
+plotly
+numoy
+scipy.stats
