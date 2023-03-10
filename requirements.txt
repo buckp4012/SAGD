@@ -1,6 +1,6 @@
 dash== 2.8.1
 pandas
-gunicon
+gunicorn
 plotly
 numoy
 scipy.stats
