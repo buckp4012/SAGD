@@ -7,7 +7,7 @@ import dash
 from dash import dash_table
 from dash import dcc
 from dash import html
-import base64
+#import base64
 
 
 
