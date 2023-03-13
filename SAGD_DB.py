@@ -14,10 +14,10 @@ import base64
 # Load data from CSV file or pandas dataframe
 data = pd.read_excel('SAGD Dashboard V2.xlsx')
 
-with open('Summit_logo.png') as f:
-    image_data = f.read()
+#with open('Summit_logo.png') as f:
+    #image_data = f.read()
 
-encoded_image=base64.b64encode(image_data).decode('utf-8')
+#encoded_image=base64.b64encode(image_data).decode('utf-8')
 
 nr_rows = data.loc[data['R/NR/Waiting'] == 'NR']
 
