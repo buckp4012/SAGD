@@ -5,4 +5,4 @@ plotly
 numpy
 scipy
 Openpyxl
-base64
+#base64
