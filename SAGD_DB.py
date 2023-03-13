@@ -10,6 +10,7 @@ from dash import html
 import base64
 
 
+
 # Load data from CSV file or pandas dataframe
 data = pd.read_excel(r'C:\Users\H277910\SAGD Dashboard V2.xlsx')
 
