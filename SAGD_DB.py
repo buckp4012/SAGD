@@ -147,9 +147,6 @@ for i in range(len(sorted_runtime3_ns)):
     results=1-(failure_count3_ns[i]/len(failure_count3_ns))
     prob_array3_ns.append(results)
 
-print(runtime_values3_ns)
-print(pdf_values3_ns, max3_ns, failure_count3_ns, prob_array3_ns )
-
 count_total=len(data[data['R/NR/Waiting']=='NR'])
 count_ver1=len(data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='NR')])
 count_ver2=len(data[(data['SEAL']=='ver 2') & (data['R/NR/Waiting']=='NR')])
@@ -157,6 +154,12 @@ count_ver2_5=len(data[(data['SEAL']=='ver 2.5') & (data['R/NR/Waiting']=='NR')])
 count_ver3=len(data[(data['SEAL']=='ver 3.0') & (data['R/NR/Waiting']=='NR')])
 count_ver3_ns=len(data[(data['SEAL']=='ver 3.0- New screen') & (data['R/NR/Waiting']=='NR')])
 
+Run_total=len(data[data['R/NR/Waiting']=='R'])
+Run_ver1=len(data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='R')])
+Run_ver2=len(data[(data['SEAL']=='ver 2') & (data['R/NR/Waiting']=='R')])
+Run_ver2_5=len(data[(data['SEAL']=='ver 2.5') & (data['R/NR/Waiting']=='R')])
+Run_ver3=len(data[(data['SEAL']=='ver 3.0') & (data['R/NR/Waiting']=='R')])
+Run_ver3_ns=len(data[(data['SEAL']=='ver 3.0- New screen') & (data['R/NR/Waiting']=='R')])
 
 days_total=data[data['R/NR/Waiting']=='NR']['RUNTIME (Excel Calculated)'].sum()
 days_ver1=data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
@@ -174,12 +177,12 @@ mttf_ver3=round(days_ver3/count_ver3)
 mttf_ver3_ns=round(days_ver3_ns/count_ver3_ns)
 
 
-install_total=len(data['W/L']=='w')
-install1=len(data[(data['SEAL']=='ver 1') & (data['W/L']=='w')])
-install2=len(data[(data['SEAL']=='ver 2')& (data['W/L']=='w')])
-install2_5=len(data[(data['SEAL']=='ver 2.5')& (data['W/L']=='w')])
-install3=len(data[(data['SEAL']=='ver 3.0')& (data['W/L']=='w')])
-install3_ns=len(data[(data['SEAL']=='ver 3.0- New screen')& (data['W/L']=='w')])
+install_total=len(data[(data['W/L']=='w') & (data['R/NR/Waiting']!='Waiting')])
+install1=len(data[(data['SEAL']=='ver 1') & (data['W/L']=='w') &(data['R/NR/Waiting']!='Waiting')])
+install2=len(data[(data['SEAL']=='ver 2')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install2_5=len(data[(data['SEAL']=='ver 2.5')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install3=len(data[(data['SEAL']=='ver 3.0')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install3_ns=len(data[(data['SEAL']=='ver 3.0- New screen')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
 
 
 runtime_col=data['RUNTIME (Excel Calculated)'].dropna()
@@ -191,15 +194,24 @@ avg2_5=round(data[(data['SEAL']=='ver 2.5')]['RUNTIME (Excel Calculated)'].mean(
 avg3=round(data[(data['SEAL']=='ver 3.0')]['RUNTIME (Excel Calculated)'].mean())
 avg3_ns=round(data[(data['SEAL']=='ver 3.0- New screen')]['RUNTIME (Excel Calculated)'].mean())
 
+max_run=round(runtime_col.max())
+max_run1=round(data[(data['SEAL']=='ver 1')]['RUNTIME (Excel Calculated)'].max())
+max_run2=round(data[(data['SEAL']=='ver 2')]['RUNTIME (Excel Calculated)'].max())
+max_run2_5=round(data[(data['SEAL']=='ver 2.5')]['RUNTIME (Excel Calculated)'].max())
+max_run3=round(data[(data['SEAL']=='ver 3.0')]['RUNTIME (Excel Calculated)'].max())
+max_run3_ns=round(data[(data['SEAL']=='ver 3.0- New screen')]['RUNTIME (Excel Calculated)'].max())
+
 
 
 
 table_data=pd.DataFrame(
     {'Seal Version': ['All Versions','ver 1', 'ver 2', 'ver 2.5', 'ver 3','ver 3.0- New screen'],
-     'MTTF (days)': [mttf_total,mttf_ver1, mttf_ver2, mttf_ver2_5, mttf_ver3, mttf_ver3_ns],
+     'Average Runtime': [avg,avg1,avg2,avg2_5,avg3,avg3_ns],
      'Installs': [install_total, install1,install2,install2_5,install3,install3_ns],
-     'Average Runtime': [avg,avg1,avg2,avg2_5,avg3,avg3_ns]})
-
+     'Actively Running':[Run_total, Run_ver1, Run_ver2, Run_ver2_5, Run_ver3, Run_ver3_ns],
+     'MTTF (days)': [mttf_total,mttf_ver1, mttf_ver2, mttf_ver2_5, mttf_ver3, mttf_ver3_ns],
+     'Max Runtime': [max_run,max_run1,max_run2,max_run2_5,max_run3,max_run3_ns]
+     })
 
 
 # Create a Dash app
