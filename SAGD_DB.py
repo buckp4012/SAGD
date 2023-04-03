@@ -247,7 +247,7 @@ app.layout = html.Div(
     dcc.Graph(id='failure-points-pie-chart'),
     dcc.Graph(id='reason-for-pull-pie-chart'),
     dcc.Graph(id='normal-dist-plot'),
-    dcc.Graph(id='survive-plot')\
+    dcc.Graph(id='survive-plot'),
     html.Footer(children=[html.P("Summit ESP - Global Technical Service; Created by Buck Pettit - 2023", style={"font-size":"small"})])
 ])
 
