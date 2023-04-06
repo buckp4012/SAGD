@@ -1,17 +1,18 @@
 import pandas as pd
 import numpy as np
-from numpy import average
 from scipy.stats import norm
 import plotly.express as px
 import dash
 from dash import dash_table
 from dash import dcc
 from dash import html
-import base64
+import math
+
+
 
 
 # Load data from CSV file or pandas dataframe
-data = pd.read_excel('SAGD Dashboard V2.xlsx')
+data = pd.read_excel(r'C:\Users\H277910\SAGD Dashboard V2.xlsx')
 
 #with open(r'C:\Users\H277910\Summit_logo.png') as f:
     #image_data = f.read()
@@ -40,7 +41,7 @@ for i in range(len(sorted_runtime)):
     
 
 #ver1
-nr_rows1 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'ver 1')]
+nr_rows1 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'Version 1')]
 
 # extract the values from the "Runtime" column of the filtered rows
 runtime_values1 = nr_rows1['RUNTIME (Excel Calculated)'].values
@@ -63,7 +64,7 @@ for i in range(len(sorted_runtime1)):
 
 
 #ver 2
-nr_rows2 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'ver 2')]
+nr_rows2 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'Version 2')]
 
 # extract the values from the "Runtime" column of the filtered rows
 runtime_values2 = nr_rows2['RUNTIME (Excel Calculated)'].values
@@ -85,7 +86,7 @@ for i in range(len(sorted_runtime2)):
 
 
 #ver 2.5
-nr_rows2_5 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'ver 2.5')]
+nr_rows2_5 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'Version 2.5')]
 
 runtime_values2_5 = nr_rows2_5['RUNTIME (Excel Calculated)'].values
 sorted_runtime2_5 = sorted(runtime_values2_5)
@@ -105,7 +106,7 @@ for i in range(len(sorted_runtime2_5)):
     prob_array2_5.append(results)
 
 #ver 3
-nr_rows3 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'ver 3.0')]
+nr_rows3 = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'Version 3.0')]
 
 # extract the values from the "Runtime" column of the filtered rows
 runtime_values3 = nr_rows3['RUNTIME (Excel Calculated)'].values
@@ -127,7 +128,7 @@ for i in range(len(sorted_runtime3)):
 
 
 #ver 3.5
-nr_rows3_ns = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'ver 3.0- New screen')]
+nr_rows3_ns = data[(data['R/NR/Waiting'] == 'NR') & (data['SEAL'] == 'Version 3.0- New screen')]
 
 # extract the values from the "Runtime" column of the filtered rows
 runtime_values3_ns = nr_rows3_ns['RUNTIME (Excel Calculated)'].values
@@ -147,26 +148,29 @@ for i in range(len(sorted_runtime3_ns)):
     results=1-(failure_count3_ns[i]/len(failure_count3_ns))
     prob_array3_ns.append(results)
 
-count_total=len(data[data['R/NR/Waiting']=='NR'])
-count_ver1=len(data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='NR')])
-count_ver2=len(data[(data['SEAL']=='ver 2') & (data['R/NR/Waiting']=='NR')])
-count_ver2_5=len(data[(data['SEAL']=='ver 2.5') & (data['R/NR/Waiting']=='NR')])
-count_ver3=len(data[(data['SEAL']=='ver 3.0') & (data['R/NR/Waiting']=='NR')])
-count_ver3_ns=len(data[(data['SEAL']=='ver 3.0- New screen') & (data['R/NR/Waiting']=='NR')])
+#print(runtime_values3_ns)
+#print(pdf_values3_ns, max3_ns, failure_count3_ns, prob_array3_ns )
 
+count_total=len(data[data['R/NR/Waiting']=='NR'])
+count_ver1=len(data[(data['SEAL']=='Version 1') & (data['R/NR/Waiting']=='NR')])
+count_ver2=len(data[(data['SEAL']=='Version 2') & (data['R/NR/Waiting']=='NR')])
+count_ver2_5=len(data[(data['SEAL']=='Version 2.5') & (data['R/NR/Waiting']=='NR')])
+count_ver3=len(data[(data['SEAL']=='Version 3.0') & (data['R/NR/Waiting']=='NR')])
+count_ver3_ns=len(data[(data['SEAL']=='Version 3.0- New screen') & (data['R/NR/Waiting']=='NR')])
+print( count_ver2)
 Run_total=len(data[data['R/NR/Waiting']=='R'])
-Run_ver1=len(data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='R')])
-Run_ver2=len(data[(data['SEAL']=='ver 2') & (data['R/NR/Waiting']=='R')])
-Run_ver2_5=len(data[(data['SEAL']=='ver 2.5') & (data['R/NR/Waiting']=='R')])
-Run_ver3=len(data[(data['SEAL']=='ver 3.0') & (data['R/NR/Waiting']=='R')])
-Run_ver3_ns=len(data[(data['SEAL']=='ver 3.0- New screen') & (data['R/NR/Waiting']=='R')])
+Run_ver1=len(data[(data['SEAL']=='Version 1') & (data['R/NR/Waiting']=='R')])
+Run_ver2=len(data[(data['SEAL']=='Version 2') & (data['R/NR/Waiting']=='R')])
+Run_ver2_5=len(data[(data['SEAL']=='Version 2.5') & (data['R/NR/Waiting']=='R')])
+Run_ver3=len(data[(data['SEAL']=='Version 3.0') & (data['R/NR/Waiting']=='R')])
+Run_ver3_ns=len(data[(data['SEAL']=='Version 3.0- New screen') & (data['R/NR/Waiting']=='R')])
 
 days_total=data[data['R/NR/Waiting']=='NR']['RUNTIME (Excel Calculated)'].sum()
-days_ver1=data[(data['SEAL']=='ver 1') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
-days_ver2=data[(data['SEAL']=='ver 2') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
-days_ver2_5=data[(data['SEAL']=='ver 2.5') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
-days_ver3=data[(data['SEAL']=='ver 3.0') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
-days_ver3_ns=data[(data['SEAL']=='ver 3.0- New screen') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
+days_ver1=data[(data['SEAL']=='Version 1') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
+days_ver2=data[(data['SEAL']=='Version 2') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
+days_ver2_5=data[(data['SEAL']=='Version 2.5') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
+days_ver3=data[(data['SEAL']=='Version 3.0') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
+days_ver3_ns=data[(data['SEAL']=='Version 3.0- New screen') & (data['R/NR/Waiting']=='NR')]['RUNTIME (Excel Calculated)'].sum()
 
 
 mttf_total=round(days_total/count_total)
@@ -176,42 +180,71 @@ mttf_ver2_5=round(days_ver2_5/count_ver2_5)
 mttf_ver3=round(days_ver3/count_ver3)
 mttf_ver3_ns=round(days_ver3_ns/count_ver3_ns)
 
+reliability=[]
+for i in range(len(sorted_runtime)):
+    reliability.append(math.exp((-1/mttf_total)*sorted_runtime[i]))
+
+reliability1=[]
+for i in range(len(sorted_runtime1)):
+    reliability1.append(math.exp((-1/mttf_ver1)*sorted_runtime1[i]))
+
+reliability2=[]
+for i in range(len(sorted_runtime2)):
+    reliability2.append(math.exp((-1/mttf_ver2)*sorted_runtime2[i]))
+
+reliability2_5=[]
+for i in range(len(sorted_runtime2_5)):
+    reliability2_5.append(math.exp((-1/mttf_ver2_5)*sorted_runtime2_5[i]))
+    
+reliability3=[]
+for i in range(len(sorted_runtime3)):
+    reliability3.append(math.exp((-1/mttf_ver3)*sorted_runtime3[i]))
+
+reliability3_ns=[]
+for i in range(len(sorted_runtime3_ns)):
+    reliability3_ns.append(math.exp((-1/mttf_ver3_ns)*sorted_runtime3_ns[i]))
+
+
+
 
 install_total=len(data[(data['W/L']=='w') & (data['R/NR/Waiting']!='Waiting')])
-install1=len(data[(data['SEAL']=='ver 1') & (data['W/L']=='w') &(data['R/NR/Waiting']!='Waiting')])
-install2=len(data[(data['SEAL']=='ver 2')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
-install2_5=len(data[(data['SEAL']=='ver 2.5')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
-install3=len(data[(data['SEAL']=='ver 3.0')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
-install3_ns=len(data[(data['SEAL']=='ver 3.0- New screen')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install1=len(data[(data['SEAL']=='Version 1') & (data['W/L']=='w') &(data['R/NR/Waiting']!='Waiting')])
+install2=len(data[(data['SEAL']=='Version 2')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install2_5=len(data[(data['SEAL']=='Version 2.5')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install3=len(data[(data['SEAL']=='Version 3.0')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
+install3_ns=len(data[(data['SEAL']=='Version 3.0- New screen')& (data['W/L']=='w')&(data['R/NR/Waiting']!='Waiting')])
 
 
 runtime_col=data['RUNTIME (Excel Calculated)'].dropna()
 
 avg=round(runtime_col.mean())
-avg1=round(data[(data['SEAL']=='ver 1')]['RUNTIME (Excel Calculated)'].mean())
-avg2=round(data[(data['SEAL']=='ver 2')]['RUNTIME (Excel Calculated)'].mean())
-avg2_5=round(data[(data['SEAL']=='ver 2.5')]['RUNTIME (Excel Calculated)'].mean())
-avg3=round(data[(data['SEAL']=='ver 3.0')]['RUNTIME (Excel Calculated)'].mean())
-avg3_ns=round(data[(data['SEAL']=='ver 3.0- New screen')]['RUNTIME (Excel Calculated)'].mean())
+avg1=round(data[(data['SEAL']=='Version 1')]['RUNTIME (Excel Calculated)'].mean())
+avg2=round(data[(data['SEAL']=='Version 2')]['RUNTIME (Excel Calculated)'].mean())
+avg2_5=round(data[(data['SEAL']=='Version 2.5')]['RUNTIME (Excel Calculated)'].mean())
+avg3=round(data[(data['SEAL']=='Version 3.0')]['RUNTIME (Excel Calculated)'].mean())
+avg3_ns=round(data[(data['SEAL']=='Version 3.0- New screen')]['RUNTIME (Excel Calculated)'].mean())
 
 max_run=round(runtime_col.max())
-max_run1=round(data[(data['SEAL']=='ver 1')]['RUNTIME (Excel Calculated)'].max())
-max_run2=round(data[(data['SEAL']=='ver 2')]['RUNTIME (Excel Calculated)'].max())
-max_run2_5=round(data[(data['SEAL']=='ver 2.5')]['RUNTIME (Excel Calculated)'].max())
-max_run3=round(data[(data['SEAL']=='ver 3.0')]['RUNTIME (Excel Calculated)'].max())
-max_run3_ns=round(data[(data['SEAL']=='ver 3.0- New screen')]['RUNTIME (Excel Calculated)'].max())
+max_run1=round(data[(data['SEAL']=='Version 1')]['RUNTIME (Excel Calculated)'].max())
+max_run2=round(data[(data['SEAL']=='Version 2')]['RUNTIME (Excel Calculated)'].max())
+max_run2_5=round(data[(data['SEAL']=='Version 2.5')]['RUNTIME (Excel Calculated)'].max())
+max_run3=round(data[(data['SEAL']=='Version 3.0')]['RUNTIME (Excel Calculated)'].max())
+max_run3_ns=round(data[(data['SEAL']=='Version 3.0- New screen')]['RUNTIME (Excel Calculated)'].max())
+
+
 
 
 
 
 table_data=pd.DataFrame(
-    {'Seal Version': ['All Versions','ver 1', 'ver 2', 'ver 2.5', 'ver 3','ver 3.0- New screen'],
+    {'Seal Version': ['All Versions','Version 1', 'Version 2', 'Version 2.5', 'Version 3','Version 3.0- New screen'],
      'Average Runtime': [avg,avg1,avg2,avg2_5,avg3,avg3_ns],
      'Installs': [install_total, install1,install2,install2_5,install3,install3_ns],
      'Actively Running':[Run_total, Run_ver1, Run_ver2, Run_ver2_5, Run_ver3, Run_ver3_ns],
      'MTTF (days)': [mttf_total,mttf_ver1, mttf_ver2, mttf_ver2_5, mttf_ver3, mttf_ver3_ns],
      'Max Runtime': [max_run,max_run1,max_run2,max_run2_5,max_run3,max_run3_ns]
      })
+
 
 
 # Create a Dash app
@@ -248,11 +281,11 @@ app.layout = html.Div(
         id='seal-dropdown',
         options=[
             {'label': 'All Versions', 'value': 'all'},
-            {'label': 'ver 1', 'value': 'ver 1'},
-            {'label': 'ver 2', 'value': 'ver 2'},
-            {'label': 'ver 2.5', 'value': 'ver 2.5'},
-            {'label': 'ver 3.0', 'value': 'ver 3.0'},
-            {'label': 'ver 3.0- New screen', 'value': 'ver 3.0- New screen'}
+            {'label': 'Version 1', 'value': 'Version 1'},
+            {'label': 'Version 2', 'value': 'Version 2'},
+            {'label': 'Version 2.5', 'value': 'Version 2.5'},
+            {'label': 'Version 3.0', 'value': 'Version 3.0'},
+            {'label': 'Version 3.0- New screen', 'value': 'Version 3.0- New screen'}
         ],
         value='all'
     ),
@@ -260,6 +293,7 @@ app.layout = html.Div(
     dcc.Graph(id='reason-for-pull-pie-chart'),
     dcc.Graph(id='normal-dist-plot'),
     dcc.Graph(id='survive-plot'),
+    dcc.Graph(id='reliability-plot'),
     html.Footer(children=[html.P("Summit ESP - Global Technical Service; Created by Buck Pettit - 2023", style={"font-size":"small"})])
 ])
 
@@ -269,6 +303,7 @@ app.layout = html.Div(
      dash.dependencies.Output('reason-for-pull-pie-chart', 'figure')],
     dash.dependencies.Output('normal-dist-plot', 'figure'),
     dash.dependencies.Output('survive-plot', 'figure'),
+    dash.dependencies.Output('reliability-plot', 'figure'),
     [dash.dependencies.Input('seal-dropdown', 'value')]
 )
 
@@ -330,6 +365,16 @@ def update_pie_charts(selected_seal_version):
         xaxis_title="Days",
         yaxis_title="Survival Probability",
         )
+    reliability_fig=px.line(
+        x=sorted_runtime,
+        y=reliability,
+        title=f'Reliability Curve (Total: {count_total})'
+    )
+    reliability_fig.update_layout(
+        xaxis_title="Days",
+        yaxis_title="Overall Reliability",
+        )
+
     # Generate the filtered pie charts if needed
     if selected_seal_version != 'all':
         filtered_failure_points = filtered_data['Failure Points'].value_counts()
@@ -345,7 +390,7 @@ def update_pie_charts(selected_seal_version):
             values=filtered_reason_for_pull.values,
             title=f'Reason for Pull for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
         )
-        if selected_seal_version == "ver 1":
+        if selected_seal_version == "Version 1":
             filtered_normal = px.scatter(
                 x=sorted_runtime1,
                 y=pdf_values1,
@@ -383,7 +428,16 @@ def update_pie_charts(selected_seal_version):
                 xaxis_title="Days",
                 yaxis_title="Survival Probability",
             )
-        if selected_seal_version == "ver 2":
+            filtered_reliability_fig = px.line(
+                x=sorted_runtime1,
+                y=reliability1,
+                title=f'Reliability Curve for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
+            )
+            filtered_reliability_fig.update_layout(
+                xaxis_title="Days",
+                yaxis_title="Overall Reliability",
+            )
+        if selected_seal_version == "Version 2":
             filtered_normal = px.scatter(
                 x=sorted_runtime2,
                 y=pdf_values2,
@@ -421,7 +475,16 @@ def update_pie_charts(selected_seal_version):
                 xaxis_title="Days",
                 yaxis_title="Survival Probability",
             )
-        if selected_seal_version == "ver 2.5":
+            filtered_reliability_fig = px.line(
+                x=sorted_runtime2,
+                y=reliability2,
+                title=f'Reliability Curve for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
+            )
+            filtered_reliability_fig.update_layout(
+                xaxis_title="Days",
+                yaxis_title="Overall Reliability",
+            )
+        if selected_seal_version == "Version 2.5":
             filtered_normal = px.scatter(
                 x=sorted_runtime2_5,
                 y=pdf_values2_5,
@@ -459,7 +522,16 @@ def update_pie_charts(selected_seal_version):
                 xaxis_title="Days",
                 yaxis_title="Survival Probability",
             )
-        if selected_seal_version == "ver 3.0":
+            filtered_reliability_fig = px.line(
+                x=sorted_runtime2_5,
+                y=reliability2_5,
+                title=f'Reliability Curve for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
+            )
+            filtered_reliability_fig.update_layout(
+                xaxis_title="Days",
+                yaxis_title="Overall Reliability",
+            )
+        if selected_seal_version == "Version 3.0":
             filtered_normal = px.scatter(
                 x=sorted_runtime3,
                 y=pdf_values3,
@@ -497,7 +569,16 @@ def update_pie_charts(selected_seal_version):
                 xaxis_title="Days",
                 yaxis_title="Survival Probability",
             )
-        if selected_seal_version == "ver 3.0- New screen":
+            filtered_reliability_fig = px.line(
+                x=sorted_runtime3,
+                y=reliability3,
+                title=f'Reliability Curve for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
+            )
+            filtered_reliability_fig.update_layout(
+                xaxis_title="Days",
+                yaxis_title="Overall Reliability",
+            )
+        if selected_seal_version == "Version 3.0- New screen":
             filtered_normal = px.scatter(
                 x=sorted_runtime3_ns,
                 y=pdf_values3_ns,
@@ -535,9 +616,18 @@ def update_pie_charts(selected_seal_version):
                 xaxis_title="Days",
                 yaxis_title="Survival Probability",
             )
-        return filtered_failure_points_fig, filtered_reason_for_pull_fig, filtered_normal,filtered_survivability_fig
+            filtered_reliability_fig = px.line(
+                x=sorted_runtime3_ns,
+                y=reliability3_ns,
+                title=f'Reliability Curve for {selected_seal_version} (Total: {sum(filtered_failure_points)})'
+            )
+            filtered_reliability_fig.update_layout(
+                xaxis_title="Days",
+                yaxis_title="Overall Reliability",
+            )
+        return filtered_failure_points_fig, filtered_reason_for_pull_fig, filtered_normal,filtered_survivability_fig, filtered_reliability_fig
     else:
-        return failure_points_fig, reason_for_pull_fig, normal_dist_fig, survivability_fig
+        return failure_points_fig, reason_for_pull_fig, normal_dist_fig, survivability_fig, reliability_fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)
