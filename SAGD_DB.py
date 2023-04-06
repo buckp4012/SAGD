@@ -12,7 +12,7 @@ import math
 
 
 # Load data from CSV file or pandas dataframe
-data = pd.read_excel(r'C:\Users\H277910\SAGD Dashboard V2.xlsx')
+data = pd.read_excel('SAGD Dashboard V2.xlsx')
 
 #with open(r'C:\Users\H277910\Summit_logo.png') as f:
     #image_data = f.read()
