@@ -14,7 +14,7 @@ import plotly.graph_objs as go
 
 
 #Load data from CSV file or pandas dataframe
-data = pd.read_excel(r'C:\Users\H277910\SAGD Dashboard V2.xlsx')
+data = pd.read_excel('SAGD Dashboard V2.xlsx')
 
 app = dash.Dash(__name__)
 server = app.server
