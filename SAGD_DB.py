@@ -19,7 +19,6 @@ df = pd.read_excel('SAGD Dashboard V2.xlsx')
 
 app = dash.Dash(__name__)
 server = app.server
-
 data = df.loc[df['R/NR/Waiting'].ne('Waiting') & df['R/NR/Waiting'].notna()]
 
 data=data.groupby('CUSTOMER').filter(lambda x: (x['R/NR/Waiting'] == 'NR').sum() >= 1)
@@ -34,12 +33,12 @@ options = [{'label': 'All Customers', 'value': 'all'}] + \
 
 #Define the layout of the app
 app.layout = html.Div(
-    style={'backgroundColor': '#b22222', 'height': '120px'},
+    style={'backgroundColor': '#E00000', 'height': '75px'},
     children=[
 
         html.Hr(),
         html.H1('Summit ESP- A Halliburton Service: SAGD Dashboard',
-                style={"text-align": "center", "font-size": "3rem"}),
+                style={"text-align": "center", "font-size": "3rem","margin-top": "0"}),
 
         #html.Div(style={'height': '30px', "backgroundColor": "white"}),
         html.Table([
@@ -62,14 +61,14 @@ app.layout = html.Div(
             html.Td('Version 3.0: Redesigning all the barstock for zero-leak porting, additional flow paths added along with parallel check valves'),]),
         html.Tr([
             html.Td('Version 3.0- New screen: Units with Seal Version 3.0 and a new screen intake'),])
-    ], style={"margin": "auto"}),
+    ], style={"margin": "auto","margin-top": "0"}),
         dcc.Dropdown(
             id='customer-dropdown',
             options=options,
             value='all',
             placeholder='Select a customer...'
         ),
-        html.Div(style={'height': '1px', "backgroundColor": "white"}),
+        #html.Div(style={'height': '.1px', "backgroundColor": "white"}),
         dcc.Graph(id='data-table'),
         dcc.Dropdown(
             id='seal-dropdown',
@@ -350,12 +349,12 @@ def update_pie_charts(selected_seal_version, selected_customer):
                            table_data['Installs'], table_data['Actively Running'], table_data['MTTF (days)'],
                            table_data['Max Runtime']],
                    align='center',
-                   font=dict(size=14),
-                   height=35))])
-   
-    table_fig.update_layout(height=450)
+                   font=dict(size=12),
+                   height=25))])
 
-    
+    table_fig.update_layout(
+        height=430,
+    )
     if sum(failure_points)<0.9:
         failure_points_fig =px.pie(title='')
         failure_points_fig.update_layout(title='No Failure Data', title_x=0.5,  # center the title horizontally
