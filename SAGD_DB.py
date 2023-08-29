@@ -21,7 +21,7 @@ app = dash.Dash(__name__)
 server = app.server
 data = df.loc[df['R/NR/Waiting'].notna()]
 
-data=data.groupby('CUSTOMER').filter(lambda x: (x['R/NR/Waiting'] == 'NR').sum() >= 1)
+#data=data.groupby('CUSTOMER').filter(lambda x: (x['R/NR/Waiting'] == 'NR').sum() >= 1)
 
 customers = data['CUSTOMER'].unique()
 
