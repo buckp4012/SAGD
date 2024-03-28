@@ -15,7 +15,7 @@ from datetime import datetime
 
 
 #Load data from CSV file or pandas dataframe
-df = pd.read_excel('SAGD Dashboard V2-new.xlsx')
+df = pd.read_excel('SAGD Dashboard V3.xlsx')
 
 app = dash.Dash(__name__)
 server = app.server
